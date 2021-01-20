@@ -19,15 +19,10 @@ client.set_manual_mode()
 
 # ####################################################################
 # start the car
-client.start_car()
-
-# client.move_backward(timeout=3)
-# client.move_forward(timeout=1.7)
-# client.turn_right(timeout=1.0)
-# client.move_forward(timeout=2)
-# client.turn_right(timeout=1)
-
-# ####################################################################
-# stop the car
+# client.start_car()
+# client.move_forward(timeout=3)
+# client.move(steering_angle=0.00, throttle=1.0, max_speed=1.0)
+# client.stop_car()
 client.show_vehicle_info()
-client.move_forward(timeout=1.7)
+
+print(client.get_battery_level())
