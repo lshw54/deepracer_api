@@ -28,6 +28,8 @@ def event_loop():
             if event.code == "ABS_RZ":
                 drive = event.state / -256.0
             elif event.code == "ABS_Z":
+                if event.state > 130 and event.state < 140:
+                    event.state = 0
                 drive = event.state / 256.0
             if event.code == "BTN_NORTH":
                 done = True
