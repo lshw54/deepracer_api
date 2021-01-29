@@ -1,7 +1,7 @@
 import os
 import yaml
 import time
-import deepracer_vehicle_api
+from core.web_core import Client
 
 # ####################################################################
 # Load the configuration
@@ -14,18 +14,15 @@ with open(os.path.join(dir_path, "config.yaml"), "r") as ymlfile:
 # ####################################################################
 # Create the API client and login
 
-client = deepracer_vehicle_api.Client(cfg["password"], cfg["ip"])
+client = Client(cfg["password"], cfg["ip"])
 
 # ####################################################################
 #
-print(client.set_calibration_mode())
-
-print(client.set_calibration_throttle(cfg["calibration"]["throttle"]))
-print(client.set_calibration_angle(cfg["calibration"]["angle"]))
-
-print("Throttle", client.get_calibration_throttle())
-print("Angle", client.get_calibration_angle())
-
 
 client.start_car()
+client.move(steering_angle=0.05, throttle=0.80, max_speed=1.0)
+client.move(steering_angle=0.05, throttle=0.80, max_speed=1.0)
 client.move(steering_angle=0.05, throttle=0.54, max_speed=1.0)
+client.move(steering_angle=0.05, throttle=0.54, max_speed=1.0)
+client.move(steering_angle=0.05, throttle=0.54, max_speed=1.0)
+
