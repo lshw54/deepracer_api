@@ -1,8 +1,8 @@
 ﻿bs4
 inputs==0.5
 lxml==4.6.2
-numpy==1.18.1
-opencv-python==4.1.2.30
+numpy==1.20.0
+opencv-python==4.5.1.48
 PyYAML==5.3.1
 requests==2.25.1
 requests-toolbelt==0.9.1
