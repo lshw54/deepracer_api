@@ -35,3 +35,6 @@ Resources:
           Resource:
           - "*"
       PolicyName: PolicyName
+Outputs:
+  AWSDeepRacerThing:
+    Value: !Ref AWSDeepRacerThing
