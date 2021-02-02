@@ -25,11 +25,12 @@ try:
     while True:
         events = pygame.event.get()
         for event in events:
-            if event.type == pygame.JOYAXISMOTION and event.axis == 0: #stering_angle
+            if event.type == pygame.JOYAXISMOTION and event.axis == 0:  # stering_angle
                 if event.value < -1:
-                     event.value = -1
+                    event.value = -1
                 else:
-                    client.move(steering_angle=event.value, throttle= -1.0, max_speed=mspeed)
+                    client.move(steering_angle=event.value,
+                                throttle=-1.0, max_speed=mspeed)
                     steer = event.value
             elif event.type == pygame.JOYBUTTONDOWN and event.button == 12:
                 mspeed = 0.25
@@ -51,19 +52,20 @@ try:
                 print(mspeed)
             elif event.type == pygame.JOYAXISMOTION and event.axis == 2 and event.value > -1:
                 client.start_car()
-                client.move(steering_angle=steer, throttle= -1.0, max_speed=mspeed)
+                client.move(steering_angle=steer,
+                            throttle=-1.0, max_speed=mspeed)
                 print(steer)
                 print(mspeed)
 
-            elif event.type == pygame.JOYAXISMOTION and event.axis == 3: # stop the car break 
+            elif event.type == pygame.JOYAXISMOTION and event.axis == 3:  # stop the car break
                 client.stop_car()
             elif event.type == pygame.JOYBUTTONDOWN and event.button == 2:
                 print("O")
-            elif event.type == pygame.JOYBUTTONDOWN and event.button == 4: # + speed
-                print("123")#throttle_Speed += -0.15
-            elif event.type == pygame.JOYBUTTONDOWN and event.button == 5: # - speed
-                print("123")#throttle_Speed = throttle_Speed + -0.15
-                
+            elif event.type == pygame.JOYBUTTONDOWN and event.button == 4:  # + speed
+                print("123")  # throttle_Speed += -0.15
+            elif event.type == pygame.JOYBUTTONDOWN and event.button == 5:  # - speed
+                print("123")  # throttle_Speed = throttle_Speed + -0.15
+
                 #client.move(steering_angle=0.00, throttle= throttle_Speed, max_speed=1.0)
 except KeyboardInterrupt:
     print("EXITING NOW")

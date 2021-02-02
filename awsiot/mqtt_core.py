@@ -1,11 +1,8 @@
 import sys
 import json
-from core.logger import Logger
-
-import requests
-from requests_toolbelt.multipart.encoder import MultipartEncoder
-from bs4 import BeautifulSoup
-import urllib3
+import boto3
+from logger import Logger
+from ratelimit import limits
 
 logger = Logger(logger="Deepracer-Api").getlog()
 
@@ -15,10 +12,8 @@ class DeepracerVehicleApiError(Exception):
 
 
 class Client:
-    def __init__(self, password, ip="192.168.1.155", name="deep_racer"):
+    def __init__(self, password="", ip="127.0.0.1", name="deep_racer", thingName=""):
         # logger.info("Create client with ip = %s", ip)
-        self.session = requests.Session()
-        urllib3.disable_warnings()
         self.password = password
         self.name = name
         self.ip = ip
@@ -29,9 +24,11 @@ class Client:
 
         self.manual = True
         self.start = False
-        self.csrf_token = None
+        self.thingName = thingName
+        self.client = boto3.client('iot-data', region_name='us-east-1')
 
     # General purpose methods
+
     def get_is_usb_connected(self):
         return self._get("api/is_usb_connected")
 
@@ -130,73 +127,31 @@ class Client:
     # helper methods
 
     def _get(self, url, check_status_code=True):
-        self._get_csrf_token()
         logger.debug("> Get %s", url)
-        response = self.session.get(
-            self.URL + url, headers=self.headers, verify=False)
-        if check_status_code:
-            if response.status_code != 200:
-                raise DeepracerVehicleApiError(
-                    "Get action failed with status code {}".format(
-                        response.status_code)
-                )
-        return json.loads(response.text)
+        return self._mqtt("put", url, {}, check_success=True)
 
     def _put(self, url, data, check_success=True):
-        self._get_csrf_token()
         logger.debug("> Put %s with %s", url, data)
-        response = self.session.put(
-            self.URL + url, json=data, headers=self.headers, verify=False
+        return self._mqtt("put", url, data, check_success=True)
+
+    # rate limited to 20 call per second
+    @limits(calls=20, period=1, raise_on_limit=False)
+    def _mqtt(self, method, url, data, check_success=True):
+        payload = json.dumps({
+            'state': {
+                'desired': {
+                    'apiCall': {
+                        'method': method,
+                        'url': url,
+                        'data': data
+                    }
+                }
+            }
+        })
+
+        print("Call _mqtt")
+        response = self.client.update_thing_shadow(
+            thingName=self.thingName,
+            payload=payload
         )
-        if check_success:
-            if response.status_code != 200 or response.text.find('success":true') < 0:
-                raise DeepracerVehicleApiError(
-                    "Put action failed with body text {}".format(response.text)
-                )
-        return json.loads(response.text)
-
-    def _get_csrf_token(self):
-        if self.csrf_token:
-            return
-
-        # Get the CSRF Token and logon on to a DeepRacer control interface session
-        try:
-            response = self.session.get(
-                self.URL, verify=False, timeout=10
-            )  # Cannot verify with Deep Racer
-        except requests.exceptions.ConnectTimeout:
-            raise DeepracerVehicleApiError(
-                "The vehicle with URL '{}' did not respond".format(self.URL)
-            )
-        # The hack to find the csrf token
-        soup = BeautifulSoup(response.text, "lxml")
-        self.csrf_token = soup.select_one('meta[name="csrf-token"]')["content"]
-        # primary header to login
-        self.headers = {
-            "X-CSRFToken": self.csrf_token,
-            "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36",
-        }
-        payload = {"password": self.password}
-        login_url = self.URL + "/login"
-        post = self.session.post(
-            login_url, data=payload, headers=self.headers, verify=False
-        )
-        if post.status_code != 200:
-            raise DeepracerVehicleApiError(
-                "Log in failed. Error message {}".format(post.text)
-            )
-
-        # secondary header for other commands
-        self.headers = {
-            "X-CSRFToken": self.csrf_token,
-            "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36",
-            "referer": self.URL + "/home",
-            "origin": self.URL,
-            "accept-encoding": "gzip, deflate, br",
-            "content-type": "application/json",
-            "accept": "*/*",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-origin",
-            "accept-language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
-            "x-requested-with": "XMLHttpRequest",
-        }
+        return response

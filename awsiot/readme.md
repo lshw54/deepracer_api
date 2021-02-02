@@ -13,8 +13,11 @@ Run the shadow.py with proper parameter.
 . venv/bin/activate
 ./run_shadow.sh
 
+Search "TODO: call web core according to the value."
+
 source https://github.com/aws/aws-iot-device-sdk-python-v2/tree/main/samples
 
-To update_shadow call but I have a permission issue in cloud 9 and cannot fix it at this moment!
+To update_shadow call but you have to set 
+. venv/bin/activate
 python3 update_shadow.py
 
