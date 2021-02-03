@@ -34,7 +34,6 @@ Resources:
           - iot:Subscribe
           Resource:
           - "*"
-      PolicyName: PolicyName
 Outputs:
   AWSDeepRacerThing:
     Value: !Ref AWSDeepRacerThing
