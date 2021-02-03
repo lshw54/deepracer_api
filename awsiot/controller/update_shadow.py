@@ -11,7 +11,7 @@ fake = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
 
 
 region = 'ap-east-1'
-thingName = 'awsiotdeepracer-AWSDeepRacerThing-L19K9MPMDSIL'
+thingName = 'awsiotdeepracer-AWSDeepRacerThing-176NPHJQUY7HH'
 
 # client = boto3.client('iot-data', region_name=region)
 # response = client.get_thing_shadow(

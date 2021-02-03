@@ -12,6 +12,7 @@ Go to controller folder.
 Setup Python virtual environment and install dependences
 ./setup.sh
 To update_shadow call but you have to use virtual environment
+open update_shadow.py and change the thingName.
 . venv/bin/activate
 python3 update_shadow.py
 
