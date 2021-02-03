@@ -1,11 +1,14 @@
-certificateId=$(cat "certs/certificateId.txt")
+region=ap-east-1
+certificateId=$(cat "deepracer/certs/certificateId.txt")
 echo $certificateId
 
 aws iot update-certificate \
+    --region $region \
     --certificate-id $certificateId \
     --new-status INACTIVE
 
 aws iot delete-certificate \
+    --region $region \
     --certificate-id $certificateId
     
-aws cloudformation delete-stack --stack-name awsiotdeepracer
+aws cloudformation delete-stack --stack-name awsiotdeepracer --region $region

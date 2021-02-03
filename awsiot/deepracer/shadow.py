@@ -10,6 +10,7 @@ import sys
 import threading
 import traceback
 from uuid import uuid4
+from web_core import Client
 
 # - Overview -
 # This sample uses the AWS IoT Device Shadow Service to keep a property in
@@ -68,6 +69,8 @@ thing_name = ""
 shadow_property = ""
 
 SHADOW_VALUE_DEFAULT = "off"
+
+webClient = Client("password")
 
 
 class LockedData:
@@ -213,7 +216,14 @@ def change_shadow_value(value):
             # remind user they can input new values
             print("Enter desired value: ")
             return
-# TODO: call web core according to the value.
+# TODO: Remove the try/catch
+        try:
+            if value["method"] == "get":
+                webClient._get(value["url"])
+            else:
+                webClient._put(value["url"], value["data"])
+        except Exception as e:
+            print(e)
         print("Changed local shadow value to '{}'.".format(value))
         locked_data.shadow_value = value
 

@@ -1,0 +1,5 @@
+awsiotsdk
+awscrt
+requests
+requests_toolbelt
+bs4

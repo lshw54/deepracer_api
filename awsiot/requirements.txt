@@ -1,4 +1,0 @@
-awsiotsdk
-awscrt
-boto3
-ratelimit
