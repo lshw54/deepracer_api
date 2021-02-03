@@ -9,6 +9,7 @@ aws iot update-certificate \
 
 aws iot delete-certificate \
     --region $region \
-    --certificate-id $certificateId
+    --certificate-id $certificateId \
+    --force-delete
     
 aws cloudformation delete-stack --stack-name awsiotdeepracer --region $region
