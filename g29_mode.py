@@ -64,7 +64,7 @@ def event_loop():
 def main():
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
-    with open(os.path.join(dir_path, "config.yaml"), "r") as ymlfile:
+    with open(os.path.join(dir_path, "config.yml"), "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     logger.info("Create client with ip = %s", cfg["ip"])
     logger.info("Login to %s with password %s", cfg["ip"], cfg["password"])
