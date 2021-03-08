@@ -13,9 +13,9 @@ try:
             elif event.type == pygame.JOYBALLMOTION:
                 print(event.dict, event.joy, event.ball, event.rel)
             elif event.type == pygame.JOYBUTTONDOWN:
-                print(event.dict, event.joy, event.button, 'pressed')
+                print(event.dict, event.joy, event.button, "pressed")
             elif event.type == pygame.JOYBUTTONUP:
-                print(event.dict, event.joy, event.button, 'released')
+                print(event.dict, event.joy, event.button, "released")
             elif event.type == pygame.JOYHATMOTION:
                 print(event.dict, event.joy, event.hat, event.value)
 
