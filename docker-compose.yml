@@ -1,0 +1,15 @@
+version: "3"
+services: 
+  deepracer-cam:
+    container_name: deepracer-cam
+    build:
+     context: ./. 
+     dockerfile: ./docker/cam/Dockerfile
+    image: deepracer-cam
+    privileged: true
+    environment:
+      DISPLAY: $DISPLAY
+      password: $password
+      hostIp: $hostIp
+    volumes: 
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
