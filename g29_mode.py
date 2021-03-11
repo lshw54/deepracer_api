@@ -88,21 +88,5 @@ def main():
     client.stop_car()
     t1.join
 
-    # Trun on the cam
-    cam = deepracer_cam.DeepracerCam(client)
-    cam.start()
-    time.sleep(1)
-    i = 0
-    while True:
-        image = cam.get_image(timeout=1)
-        if image is not None:
-            cv2.imshow("Deepracer_Cam", image)
-        else:
-            print("waiting", i)
-            i = i + 1
-        if cv2.waitKey(1) == 27:
-            exit(0)
-
-
 if __name__ == "__main__":
     main()
