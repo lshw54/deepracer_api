@@ -5,9 +5,8 @@ import time
 import threading
 import argparse
 import pygame
-import cv2
+
 from awsdeepracer_control import Client
-from core import deepracer_cam
 from core.logger import Logger
 
 logger = Logger(logger="Gamepad_mode").getlog()
