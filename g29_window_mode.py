@@ -28,6 +28,8 @@ def event_loop():
                      event.value = -1
                 else:
                     steer = event.value
+                    drive = drive
+                    max_speed = max_speed
                     
             if event.type == pygame.JOYBUTTONDOWN and event.button == 12: # D1
                 
