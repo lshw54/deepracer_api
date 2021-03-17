@@ -1,4 +1,4 @@
-# Deepracer_api Rewirt
+# Deepracer_api Rewirte
 This project base on https://github.com/thu2004/deepracer-vehicle-api rewrite to support the new version Deepracer Console `Software version 1.0.606.0`
 
 # Directory Tree
