@@ -1,0 +1,32 @@
+version: "3.3"
+services: 
+  deepracer-cam:
+    container_name: deepracer-cam
+    build:
+     context: ./. 
+     dockerfile: ./docker/cam/Dockerfile
+    image: deepracer-cam
+    privileged: true
+    environment:
+      DISPLAY: $DISPLAY
+      password: $password
+      hostIp: $hostIp
+      QT_X11_NO_MITSHM: 1
+    volumes: 
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+  g29-control-mode:
+    container_name: g29-control
+    build: 
+      context: ./.
+      dockerfile: ./docker/g29/Dockerfile
+    image: g29-control
+    privileged: true
+    environment: 
+      DISPLAY: $DISPLAY
+      password: $password
+      hostIp: $hostIp
+      QT_X11_NO_MITSHM: 1
+    volumes: 
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+    devices:
+      - "/dev/snd"

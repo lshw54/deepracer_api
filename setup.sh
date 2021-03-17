@@ -30,5 +30,4 @@ echo "password is $password"
 
 export hostIp=$hostIp
 export password=$password
-
-xhost +
+export DISPLAY=unix$DISPLAY
