@@ -1,11 +1,7 @@
 version: "3"
 services: 
   deepracer-cam:
-    container_name: deepracer-cam
-    build:
-     context: ./. 
-     dockerfile: ./docker/cam/Dockerfile
-    image: deepracer-cam
+    image: lshw54/deepracer-cam
     privileged: true
     environment:
       DISPLAY: $DISPLAY
@@ -15,17 +11,12 @@ services:
     volumes: 
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
   ps4-controller-mode:
-    container_name: ps4-controller
-    build: 
-      context: ./.
-      dockerfile: ./docker/ps4/Dockerfile
-    image: ps4-controller
+    image: lshw54/ps4-controller
     privileged: true
     environment: 
       DISPLAY: $DISPLAY
       password: $password
       hostIp: $hostIp
-      QT_X11_NO_MITSHM: 1
     volumes: 
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
     devices:

@@ -1,7 +1,11 @@
 version: "3.3"
 services: 
   deepracer-cam:
-    image: lshw54/deepracer-cam
+    container_name: deepracer-cam
+    build:
+     context: ../.
+     dockerfile: ./docker/cam/Dockerfile
+    image: deepracer-cam
     privileged: true
     environment:
       DISPLAY: $DISPLAY
@@ -10,8 +14,12 @@ services:
       QT_X11_NO_MITSHM: 1
     volumes: 
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
-  g29-control-mode:
-    image: lshw54/g29-control
+  ps4-controller-mode:
+    container_name: ps4-controller
+    build: 
+      context: ../.
+      dockerfile: ./docker/ps4/Dockerfile
+    image: ps4-controller
     privileged: true
     environment: 
       DISPLAY: $DISPLAY
