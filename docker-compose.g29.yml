@@ -15,8 +15,8 @@ services:
     privileged: true
     environment: 
       DISPLAY: $DISPLAY
-      password: $password
-      hostIp: $hostIp
+      password: 
+      hostIp: 
     volumes: 
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
     devices:
